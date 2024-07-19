@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\Question2\obj\Debug\net8.0-windows\
+C:\Users\WBPC.VN\Documents\i\Projects\courses-management-system\Question2\obj\Debug\net8.0-windows\
 CourseManagement
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\Question2\App.xaml
-11407045341
+C:\Users\WBPC.VN\Documents\i\Projects\courses-management-system\Question2\App.xaml
+3592785601
 
-13-814780417
-247-1925708542
-MainWindow.xaml;
+231894459722
+247-707350812
+Core\DataTemplate.xaml;MainWindow.xaml;Views\CourseView.xaml;
 
 True
 

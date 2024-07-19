@@ -1,6 +1,6 @@
-create database PE_PRN_24SumB1
+create database CoursesManagementSystem
 go
-use  PE_PRN_24SumB1
+use  CoursesManagementSystem
 go
 CREATE TABLE Users (
     user_id INT IDENTITY(1,1) PRIMARY KEY,

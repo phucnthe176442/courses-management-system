@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="CourseManagement.Views.CourseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:CourseManagement.ViewModels"
+             xmlns:local="clr-namespace:CourseManagement.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="680"
+             d:DesignWidth="1420">
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  Margin="20 20 10 20">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center">
+                    <materialDesign:Card Margin="0 0 0 10">
+                        <StackPanel Margin="10"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                            <ComboBox ItemsSource="{Binding Categories}"
+                                      DisplayMemberPath="CategoryName"
+                                      SelectedValuePath="CategoryId"
+                                      Width="180" />
+                            <TextBox Name="search_tbx"
+                                     Text="Search..."
+                                     Width="420"
+                                     Margin="20 0 20 0" />
+                            <Button Content="Search"
+                                    Margin="0 0 20 0" />
+                            <Button Content="Refresh" />
+                        </StackPanel>
+                    </materialDesign:Card>
+                    <materialDesign:Card>
+                        <StackPanel>
+                            <ListView Name="list_view"
+                                      Margin="10"
+                                      ItemsSource="{Binding Courses}"
+                                      SelectedItem="{Binding Selected}"
+                                      SelectionMode="Single">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="auto"
+                                                        Header="CourseId"
+                                                        DisplayMemberBinding="{Binding CourseId}"></GridViewColumn>
+                                        <GridViewColumn Width="200"
+                                                        Header="Title"
+                                                        DisplayMemberBinding="{Binding Title}"></GridViewColumn>
+                                        <GridViewColumn Width="240"
+                                                        Header="Description"
+                                                        DisplayMemberBinding="{Binding Description}"></GridViewColumn>
+                                        <GridViewColumn Width="140"
+                                                        Header="InstructorId"
+                                                        DisplayMemberBinding="{Binding InstructorId}"></GridViewColumn>
+                                        <GridViewColumn Width="160"
+                                                        Header="InstructorName"
+                                                        DisplayMemberBinding="{Binding Instructor.Name}"></GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1"
+                  Margin="10 20 20 20">
+                <materialDesign:Card>
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top"
+                                Margin="0 50 0 0">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Label Width="80"
+                                   Content="CourseId"></Label>
+                            <TextBlock Text="{Binding Selected.CourseId}"
+                                       Width="300"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Label Width="80"
+                                   Content="CourseTitle"></Label>
+                            <TextBox Text="{Binding Selected.Title}"
+                                     Width="300"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Label Width="80"
+                                   Content="Description"></Label>
+                            <TextBox Text="{Binding Selected.Description}"
+                                     Width="300"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Label Width="80"
+                                   Content="Instructor"></Label>
+                            <ComboBox ItemsSource="{Binding Instructors}"
+                                      Width="300"
+                                      DisplayMemberPath="Name"
+                                      SelectedValuePath="InstructorId"></ComboBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <ListView Margin="5"
+                                      ItemsSource="{Binding Selected.Categories}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="auto"
+                                                        Header="CategoryId"
+                                                        DisplayMemberBinding="{Binding CategoryId}"></GridViewColumn>
+                                        <GridViewColumn Width="200"
+                                                        Header="CategoryName"
+                                                        DisplayMemberBinding="{Binding CategoryName}"></GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                        <StackPanel Margin="100, 15, 100, 0"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <Button Content="Add"
+                                    Margin="5" />
+                            <Button Content="Edit"
+                                    Margin="5" />
+                            <Button Content="Delete"
+                                    Margin="5" />
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+    </Grid>
+    
+</UserControl>
