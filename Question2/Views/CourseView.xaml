@@ -27,16 +27,17 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
                             <ComboBox ItemsSource="{Binding Categories}"
+                                      SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="CategoryName"
                                       SelectedValuePath="CategoryId"
                                       Width="180" />
                             <TextBox Name="search_tbx"
-                                     Text="Search..."
+                                     Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
                                      Width="420"
                                      Margin="20 0 20 0" />
-                            <Button Content="Search"
+                            <Button Content="Search" Command="{Binding SearchCommand}"
                                     Margin="0 0 20 0" />
-                            <Button Content="Refresh" />
+                            <Button Content="Refresh" Command="{Binding RefreshCommand}" />
                         </StackPanel>
                     </materialDesign:Card>
                     <materialDesign:Card>
@@ -44,7 +45,7 @@
                             <ListView Name="list_view"
                                       Margin="10"
                                       ItemsSource="{Binding Courses}"
-                                      SelectedItem="{Binding Selected}"
+                                      SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       SelectionMode="Single">
                                 <ListView.View>
                                     <GridView>
@@ -76,25 +77,26 @@
                     <StackPanel Orientation="Vertical"
                                 VerticalAlignment="Top"
                                 Margin="0 50 0 0">
+                        <TextBlock Text="Course Information" FontSize="24" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <Label Width="80"
-                                   Content="CourseId"></Label>
-                            <TextBlock Text="{Binding Selected.CourseId}"
+                                   Content="Id"></Label>
+                            <TextBlock Text="{Binding CourseId}"
                                        Width="300"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <Label Width="80"
-                                   Content="CourseTitle"></Label>
-                            <TextBox Text="{Binding Selected.Title}"
+                                   Content="Title"></Label>
+                            <TextBox Text="{Binding CourseTitle, UpdateSourceTrigger=PropertyChanged}"
                                      Width="300"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <Label Width="80"
                                    Content="Description"></Label>
-                            <TextBox Text="{Binding Selected.Description}"
+                            <TextBox Text="{Binding CourseDescription, UpdateSourceTrigger=PropertyChanged}"
                                      Width="300"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
@@ -103,12 +105,13 @@
                                    Content="Instructor"></Label>
                             <ComboBox ItemsSource="{Binding Instructors}"
                                       Width="300"
+                                      SelectedItem="{Binding Instructor, UpdateSourceTrigger=PropertyChanged}"
                                       DisplayMemberPath="Name"
                                       SelectedValuePath="InstructorId"></ComboBox>
                         </StackPanel>
                         <StackPanel>
                             <ListView Margin="5"
-                                      ItemsSource="{Binding Selected.Categories}">
+                                      ItemsSource="{Binding CourseCategories, Mode=OneWay}">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Width="auto"
@@ -124,11 +127,11 @@
                         <StackPanel Margin="100, 15, 100, 0"
                                     Orientation="Horizontal"
                                     VerticalAlignment="Center">
-                            <Button Content="Add"
+                            <Button Content="Add" Command="{Binding AddCommand}"
                                     Margin="5" />
-                            <Button Content="Edit"
+                            <Button Content="Edit" Command="{Binding EditCommand}"
                                     Margin="5" />
-                            <Button Content="Delete"
+                            <Button Content="Delete" Command="{Binding DeleteCommand}"
                                     Margin="5" />
                         </StackPanel>
                     </StackPanel>
@@ -136,5 +139,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
 </UserControl>

@@ -59,11 +59,11 @@ public partial class AppDbContext : DbContext
                     "CourseCategoryAssignment",
                     r => r.HasOne<CourseCategory>().WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK__CourseCat__categ__31EC6D26"),
                     l => l.HasOne<Course>().WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK__CourseCat__cours__30F848ED"),
                     j =>
                     {

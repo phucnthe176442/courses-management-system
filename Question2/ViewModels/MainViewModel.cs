@@ -1,15 +1,24 @@
-﻿using CourseManagement.Core;
+﻿using CourseManagement.Containers;
+using CourseManagement.Core;
 using CourseManagement.Models;
 
 namespace CourseManagement.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public BaseViewModel CurrentViewModel { get; set; }
+        private NavigationContainer _navigationContainer;
+        public BaseViewModel CurrentViewModel => _navigationContainer.CurrentViewModel;
 
-        public MainViewModel(AppDbContext context)
+        public MainViewModel(NavigationContainer navigationContainer, AppDbContext context)
         {
-            CurrentViewModel = new CourseViewModel(context);
+            _navigationContainer = navigationContainer;
+            _navigationContainer.OnCurrentViewModelChanged += OnViewModelChanged;
+            _navigationContainer.CurrentViewModel = new CourseViewModel(context);
+        }
+
+        private void OnViewModelChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }

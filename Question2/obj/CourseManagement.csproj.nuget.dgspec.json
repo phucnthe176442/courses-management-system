@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\WBPC.VN\\Documents\\i\\Projects\\courses-management-system\\Question2\\CourseManagement.csproj": {}
+    "D:\\Workspace\\0.UniversityFPT\\KyGap\\PRN212\\PRN212_Project\\courses-management-system\\Question2\\CourseManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\WBPC.VN\\Documents\\i\\Projects\\courses-management-system\\Question2\\CourseManagement.csproj": {
+    "D:\\Workspace\\0.UniversityFPT\\KyGap\\PRN212\\PRN212_Project\\courses-management-system\\Question2\\CourseManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\WBPC.VN\\Documents\\i\\Projects\\courses-management-system\\Question2\\CourseManagement.csproj",
+        "projectUniqueName": "D:\\Workspace\\0.UniversityFPT\\KyGap\\PRN212\\PRN212_Project\\courses-management-system\\Question2\\CourseManagement.csproj",
         "projectName": "CourseManagement",
-        "projectPath": "C:\\Users\\WBPC.VN\\Documents\\i\\Projects\\courses-management-system\\Question2\\CourseManagement.csproj",
-        "packagesPath": "C:\\Users\\WBPC.VN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\WBPC.VN\\Documents\\i\\Projects\\courses-management-system\\Question2\\obj\\",
+        "projectPath": "D:\\Workspace\\0.UniversityFPT\\KyGap\\PRN212\\PRN212_Project\\courses-management-system\\Question2\\CourseManagement.csproj",
+        "packagesPath": "C:\\Users\\thoat\\.nuget\\packages\\",
+        "outputPath": "D:\\Workspace\\0.UniversityFPT\\KyGap\\PRN212\\PRN212_Project\\courses-management-system\\Question2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\WBPC.VN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thoat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +84,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

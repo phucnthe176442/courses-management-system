@@ -2,11 +2,102 @@
 using CourseManagement.Models;
 using System.Windows.Controls;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseManagement.ViewModels
 {
     public class CourseViewModel : BaseViewModel
     {
+        #region Binding
+        private string _courseId;
+        public string CourseId
+        {
+            get => _courseId; set
+            {
+                _courseId = value;
+                OnPropertyChanged(nameof(CourseId));
+            }
+        }
+
+        private string _courseTitle;
+        public string CourseTitle
+        {
+            get => _courseTitle;
+            set
+            {
+                _courseTitle = value;
+                OnPropertyChanged(nameof(CourseTitle));
+            }
+        }
+
+        private string _courseDescription;
+        public string CourseDescription
+        {
+            get => _courseDescription;
+            set
+            {
+                _courseDescription = value;
+                OnPropertyChanged(nameof(CourseDescription));
+            }
+        }
+
+        private Instructor _instructor;
+        public Instructor Instructor
+        {
+            get => _instructor;
+            set
+            {
+                _instructor = value;
+                OnPropertyChanged(nameof(Instructor));
+            }
+        }
+
+        private List<CourseCategory> _categories;
+        public List<CourseCategory> CourseCategories
+        {
+            get => _categories;
+            set
+            {
+                _categories = value;
+                OnPropertyChanged(nameof(CourseCategories));
+            }
+        }
+        private CourseCategory _selectedCategory;
+        public CourseCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged(nameof(SelectedCategory));
+                if (value == null) return;
+                Courses = _context.Courses.Include(c => c.Categories).Where(c => c.Categories.Contains(value)).ToList();
+            }
+        }
+
+        private List<Course> _courses;
+
+        public List<Course> Courses
+        {
+            get => _courses; private set
+            {
+                _courses = value;
+                OnPropertyChanged(nameof(Courses));
+            }
+        }
+
+        private string _searchString = "Search...";
+        public string SearchString
+        {
+            get => _searchString;
+            set
+            {
+                _searchString = value;
+                OnPropertyChanged(nameof(SearchString));
+            }
+        }
+        #endregion
+
         private AppDbContext _context;
 
         public RelayCommand SearchCommand { get; set; }
@@ -17,65 +108,81 @@ namespace CourseManagement.ViewModels
 
         public RelayCommand EditCommand { get; set; }
 
-        public RelayCommand RelayCommand { get; set; }
+        public RelayCommand DeleteCommand { get; set; }
 
-        public List<Course> Courses => _context.Courses.ToList();
+        public List<CourseCategory> Categories { get; }
 
-        public List<CourseCategory> Categories => _context.CourseCategories.ToList();
+        public List<Instructor> Instructors { get; }
 
-        public List<Instructor> Instructors => _context.Instructors.ToList();
+        private Course _selected;
 
-        public Course Selected { get; set; }
-
-        public CourseViewModel(AppDbContext context) => _context = context;
-
-        private void on_click_category(object sender, SelectionChangedEventArgs e)
+        public Course Selected
         {
-            try
+            get => _selected; set
             {
-                //var category = category_cb.SelectedItem as CourseCategory;
-                //if (category == null) return;
-                //var courses = _context.Courses.Include(c => c.Categories).ThenInclude(cc => cc.Courses).ToList();
-                //list_view.ItemsSource = courses.Where(c => c.Categories.Any(cg => cg.CategoryId == category.CategoryId));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception");
+                _selected = value;
+                CourseId = value?.CourseId.ToString() ?? "";
+                CourseTitle = value?.Title ?? "";
+                CourseDescription = value?.Description ?? "";
+                Instructor = value?.Instructor ?? null;
+                CourseCategories = value?.Categories?.ToList() ?? null;
+                OnPropertyChanged(nameof(Selected));
             }
         }
 
-
-        private void on_click_search(object sender, RoutedEventArgs e)
+        public CourseViewModel(AppDbContext context)
         {
-            try
+            _context = context;
+            Categories = _context.CourseCategories.ToList();
+            Instructors = _context.Instructors.ToList();
+            Courses = _context.Courses.Include(c => c.Categories).ToList();
+            RefreshCommand = new RelayCommand((o) =>
             {
-                //var searchString = search_tbx.Text;
-                //if (_context == null) return;
-                //if (string.IsNullOrEmpty(searchString))
-                //{
-                //    return;
-                //}
-                //list_view.ItemsSource = _context.Courses.Include(c => c.Categories).Include(c => c.Instructor)
-                //.Where(c => (c.Title != null && c.Title.Contains(searchString)) ||
-                //(c.Description != null && c.Description.Contains(searchString)) ||
-                //(c.Instructor != null && c.Instructor.Name.Contains(searchString))).ToList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception");
-            }
-        }
-
-        private void on_click_refresh(object sender, RoutedEventArgs e)
-        {
-            try
-            {
+                Courses = _context.Courses.Include(c => c.Categories).ToList();
                 Selected = null;
-            }
-            catch (Exception ex)
+                SelectedCategory = null;
+                SearchString = "Search...";
+            }, (o) => true);
+            SearchCommand = new RelayCommand((o) =>
             {
-                MessageBox.Show(ex.Message, "Exception");
-            }
+                Courses = _context.Courses.Include(c => c.Categories).Include(c => c.Instructor)
+                .Where(c => (c.Title != null && c.Title.Contains(SearchString)) ||
+                (c.Description != null && c.Description.Contains(SearchString)) ||
+                (c.Instructor != null && c.Instructor.Name.Contains(SearchString))).ToList();
+            }, (o) => !string.IsNullOrEmpty(SearchString));
+            AddCommand = new RelayCommand((o) =>
+            {
+                MessageBox.Show($"{_courseDescription}");
+            }, (o) => true);
+            EditCommand = new RelayCommand((o) =>
+            {
+                var id = CourseId;
+                var course = _context.Courses.Include(c => c.Categories).FirstOrDefault(c => c.CourseId == int.Parse(id));
+                if (course == null) return;
+                course.Title = CourseTitle;
+                course.Description = CourseDescription;
+                course.Instructor = Instructor;
+                course.InstructorId = course.Instructor.InstructorId;
+                _context.Entry(course).State = EntityState.Modified;
+                _context.SaveChanges();
+                Courses = _context.Courses.Include(c => c.Categories).ToList();
+                Selected = course;
+                MessageBox.Show("Edited course success.", "Edit");
+            }, (o) => !string.IsNullOrEmpty(CourseId) && !string.IsNullOrEmpty(CourseTitle)
+                    && !string.IsNullOrEmpty(CourseDescription) && Instructor != null);
+            DeleteCommand = new RelayCommand((o) =>
+            {
+                var course = _context.Courses.First(c => c.CourseId == int.Parse(CourseId));
+                if (course == null) return;
+                var enrollments = _context.Enrollments.Where(e => e.CourseId == course.CourseId).ToArray();
+                var reviews = _context.Reviews.Where(r => r.CourseId == course.CourseId).ToArray();
+                _context.Reviews.RemoveRange(reviews);
+                _context.Enrollments.RemoveRange(enrollments);
+                _context.Courses.Remove(course);
+                _context.SaveChanges();
+                Courses = _context.Courses.Include(c => c.Categories).ToList();
+                MessageBox.Show("Deleted course success.", "Delete");
+            }, (o) => !string.IsNullOrEmpty(CourseId));
         }
 
         private void on_click_add(object sender, RoutedEventArgs e)
@@ -83,44 +190,6 @@ namespace CourseManagement.ViewModels
             try
             {
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception");
-            }
-        }
-
-        private void on_click_edit(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //var id = course_id_tb.Text;
-                //if (id.IsNullOrEmpty()) throw new Exception("Choose a course to edit.");
-                //var course = _context.Courses.Include(c => c.Categories).FirstOrDefault(c => c.CourseId == int.Parse(id));
-                //if (course == null) return;
-                //course.Title = course_title_tbx.Text;
-                //course.Description = course_desc_tbx.Text;
-                //course.Instructor = instructor_cb.SelectedItem as Instructor;
-                //course.InstructorId = course.Instructor.InstructorId;
-                //_context.Entry(course).State = EntityState.Modified;
-                //_context.SaveChanges();
-                //list_view.ItemsSource = _context.Courses.Include(c => c.Categories).ToList();
-                //MessageBox.Show("Edited course success.", "Edit");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception");
-            }
-        }
-
-        private void on_click_delete(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (Selected == null) throw new Exception("Choose a course to delete.");
-                _context.Courses.Remove(Selected);
-                _context.SaveChanges();
-                MessageBox.Show("Deleted course success.", "Delete");
             }
             catch (Exception ex)
             {

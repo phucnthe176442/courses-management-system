@@ -2,6 +2,7 @@
 using CourseManagement.Models;
 using System.Windows;
 using CourseManagement.ViewModels;
+using CourseManagement.Containers;
 
 namespace CourseManagement
 {
@@ -10,15 +11,16 @@ namespace CourseManagement
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
 
         public App()
         {
             var services = new ServiceCollection();
-            services.AddScoped<AppDbContext>();
+            services.AddSingleton<AppDbContext>();
             services.AddTransient<CourseViewModel>();
-            services.AddSingleton<MainViewModel>((services) => new MainViewModel(services.GetRequiredService<AppDbContext>()));
-            services.AddSingleton<MainWindow>((services) => new MainWindow()
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<NavigationContainer>();
+            services.AddSingleton((services) => new MainWindow()
             {
                 DataContext = services.GetRequiredService<MainViewModel>()
             });
