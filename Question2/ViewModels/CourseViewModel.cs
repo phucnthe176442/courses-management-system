@@ -3,6 +3,7 @@ using CourseManagement.Models;
 using System.Windows.Controls;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using CourseManagement.Views;
 
 namespace CourseManagement.ViewModels
 {
@@ -71,6 +72,7 @@ namespace CourseManagement.ViewModels
                 _selectedCategory = value;
                 OnPropertyChanged(nameof(SelectedCategory));
                 if (value == null) return;
+                SearchString = "Search...";
                 Courses = _context.Courses.Include(c => c.Categories).Where(c => c.Categories.Contains(value)).ToList();
             }
         }
@@ -145,14 +147,16 @@ namespace CourseManagement.ViewModels
             }, (o) => true);
             SearchCommand = new RelayCommand((o) =>
             {
-                Courses = _context.Courses.Include(c => c.Categories).Include(c => c.Instructor)
+                Courses = Courses
                 .Where(c => (c.Title != null && c.Title.Contains(SearchString)) ||
                 (c.Description != null && c.Description.Contains(SearchString)) ||
                 (c.Instructor != null && c.Instructor.Name.Contains(SearchString))).ToList();
             }, (o) => !string.IsNullOrEmpty(SearchString));
             AddCommand = new RelayCommand((o) =>
             {
-                MessageBox.Show($"{_courseDescription}");
+                AddCourseWindow addCourseWindow = new AddCourseWindow();
+                addCourseWindow.DataContext = new AddCourseViewModel(_context, () => Courses = _context.Courses.Include(c => c.Categories).ToList());
+                addCourseWindow.ShowDialog();
             }, (o) => true);
             EditCommand = new RelayCommand((o) =>
             {

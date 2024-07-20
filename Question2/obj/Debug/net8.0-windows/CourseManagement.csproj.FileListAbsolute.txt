@@ -443,3 +443,5 @@ D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-syst
 D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\obj\Debug\net8.0-windows\CourseManagement.pdb
 D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\obj\Debug\net8.0-windows\CourseManagement.genruntimeconfig.cache
 D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\obj\Debug\net8.0-windows\ref\CourseManagement.dll
+D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\obj\Debug\net8.0-windows\Views\AddCourseWindow.g.cs
+D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\obj\Debug\net8.0-windows\Views\AddCourseWindow.baml

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\Workspace\0.UniversityFPT\KyGap\PRN212\PRN212_Project\courses-management-system\Question2\App.xaml
-3592785601
+41064342951
 
-24-5386242
+26-1493702825
 247-1925708542
-Core\DataTemplate.xaml;MainWindow.xaml;Views\CourseView.xaml;
+Core\DataTemplate.xaml;MainWindow.xaml;Views\AddCourseWindow.xaml;Views\CourseView.xaml;
 
 False
 
